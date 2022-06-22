@@ -1,0 +1,9 @@
+En vez de utilizar las factories que complican el codigo y llenan de archivos inutiles el proyecto podemos hacer
+
+fachadaDaoUsuario = new FachadaDaoUsuario();
+por ejemplo.
+
+
+observer entre la tabla de la vista y el DAO, si hubieran mas subsistemas este observer seria mucho mas grande.
+
+alta, baja, consulta, modificación y búsqueda
