@@ -1,55 +1,60 @@
-package Producto.SA;
+package Producto.DAO;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import BBDD.BDManager;
 import Producto.Producto;
 
-public class FachadaSubsProducto implements IFachadaSubsProducto{
+public class DAOProducto implements IDAOProducto{
 	
-	private ISASubsProducto SAProducto;
-	
-	public FachadaSubsProducto() {
-		SAProducto = new SASubsProducto();
-	}
-	
+	BDManager bdManager = new BDManager();
 	
 	@Override
 	public boolean altaProducto(Producto p) throws SQLException {
-		// TODO Auto-generated method stub
-		return SAProducto.altaProducto(p);
+		String query = "INSERT INTO Productos(id, nombre, sexo, stock, categoria, color) VALUES('" + p.getNombre()	
+		+"' " + p.getSexo() + "' " + p.getCategoria() + "' " + p.getColor() +"');";
+		try {
+			return bdManager.executeUpdate(query);
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean bajaProducto(int id) {
 		// TODO Auto-generated method stub
-		return SAProducto.bajaProducto(id);
+		return false;
 	}
 
 	@Override
 	public Producto getProducto(int id) {
 		// TODO Auto-generated method stub
-		return SAProducto.getProducto(id);
+		return null;
 	}
 
 	@Override
 	public boolean modProducto(Producto p, int op, String dato) {
 		// TODO Auto-generated method stub
-		return SAProducto.modProducto(p, op, dato);
+		return false;
 	}
 
 	@Override
 	public boolean buscProducto(String dato, String op) {
 		// TODO Auto-generated method stub
-		return SAProducto.buscProducto(dato, op);
+		return false;
 	}
 
+	@Override
+	public boolean existsProducto(int id) {
+		
+		return false;
+	}
 
 	@Override
 	public List<Producto> listProductos() {
 		// TODO Auto-generated method stub
-		return SAProducto.listProductos();
+		return null;
 	}
 
 }

@@ -54,7 +54,7 @@ public class SASubsProducto implements ISASubsProducto{
 	}
 
 	@Override
-	public boolean buscProducto(String dato, int op) {
+	public boolean buscProducto(String dato, String op) {
 		return fachadaDAO.buscProducto(dato, op);
 	}
 

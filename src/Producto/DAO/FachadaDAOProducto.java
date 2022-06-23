@@ -32,7 +32,7 @@ public class FachadaDAOProducto implements IFachadaDAOProducto{
 	}
 
 	@Override
-	public boolean buscProducto(String dato, int op) {
+	public boolean buscProducto(String dato, String op) {
 		// TODO Auto-generated method stub
 		return false;
 	}
