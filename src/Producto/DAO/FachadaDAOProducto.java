@@ -6,47 +6,43 @@ import java.util.List;
 import Producto.Producto;
 
 public class FachadaDAOProducto implements IFachadaDAOProducto{
+	
+	DAOProducto dao = new DAOProducto();
 
 	@Override
 	public boolean altaProducto(Producto p) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.altaProducto(p);
 	}
 
 	@Override
 	public boolean bajaProducto(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.bajaProducto(id);
 	}
 
 	@Override
 	public Producto getProducto(int id) {
-		Producto p = null;
+		Producto p = dao.getProducto(id);
 		return p;
 	}
 
 	@Override
-	public boolean modProducto(Producto p, int op, String dato) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean modProducto(Producto p, String op, String dato) {		
+		return dao.modProducto(p, op, dato);
 	}
 
 	@Override
-	public boolean buscProducto(String dato, String op) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<Producto> buscProducto(String dato, String op) {		
+		return dao.buscProducto(dato, op);
 	}
 
 	@Override
 	public List<Producto> listProductos() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.listProductos();
 	}
 
 	@Override
 	public boolean existsProducto(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.existsProducto(id);
 	}
 
 }

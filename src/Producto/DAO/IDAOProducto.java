@@ -5,14 +5,14 @@ import java.util.List;
 
 import Producto.Producto;
 
-public interface IDAOProducto {
+public abstract class IDAOProducto {
 
-	public boolean altaProducto(Producto p) throws SQLException;
-	public boolean bajaProducto(int id);
-	public Producto getProducto(int id);
-	public boolean modProducto(Producto p, int op, String dato);
-	public boolean buscProducto(String dato, String op);
-	public boolean existsProducto(int id);
+	public abstract boolean altaProducto(Producto p) throws SQLException;
+	public abstract boolean bajaProducto(int id);
+	public abstract Producto getProducto(int id);
+	public abstract boolean modProducto(Producto p, String op, String dato);
+	public abstract List<Producto> buscProducto(String dato, String op);
+	public abstract boolean existsProducto(int id);
 	
-	public List<Producto> listProductos();
+	public abstract List<Producto> listProductos();
 }

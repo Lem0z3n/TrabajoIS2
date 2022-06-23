@@ -34,13 +34,13 @@ public class FachadaSubsProducto implements IFachadaSubsProducto{
 	}
 
 	@Override
-	public boolean modProducto(Producto p, int op, String dato) {
+	public boolean modProducto(Producto p, String op, String dato) {
 		// TODO Auto-generated method stub
 		return SAProducto.modProducto(p, op, dato);
 	}
 
 	@Override
-	public boolean buscProducto(String dato, String op) {
+	public List<Producto> buscProducto(String dato, String op) {
 		// TODO Auto-generated method stub
 		return SAProducto.buscProducto(dato, op);
 	}

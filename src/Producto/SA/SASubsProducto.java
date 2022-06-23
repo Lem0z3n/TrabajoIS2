@@ -45,7 +45,7 @@ public class SASubsProducto implements ISASubsProducto{
 	}
 
 	@Override
-	public boolean modProducto(Producto p, int op, String dato) {
+	public boolean modProducto(Producto p, String op, String dato) {
 		exito = fachadaDAO.existsProducto(p.getId());
 		if(exito) {
 			exito = fachadaDAO.modProducto(p, op, dato);
@@ -54,7 +54,7 @@ public class SASubsProducto implements ISASubsProducto{
 	}
 
 	@Override
-	public boolean buscProducto(String dato, String op) {
+	public List<Producto> buscProducto(String dato, String op) {
 		return fachadaDAO.buscProducto(dato, op);
 	}
 
