@@ -13,7 +13,12 @@ public class ProductoTableModel extends AbstractTableModel implements DAOObserve
 	String[] colNames_ = {"nombre", "id", "categoria", "sexo", "stock", "color"};
 	List<Producto> lps = new ArrayList<>();
 	
+	
 	FachadaSubsProducto subsProducto = new FachadaSubsProducto();
+	
+	public ProductoTableModel(ControllerProducto ctrl) {
+		ctrl.addObserver(this);
+	}
 
 	@Override
 	public int getColumnCount() {

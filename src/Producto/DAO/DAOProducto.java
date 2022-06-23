@@ -10,6 +10,7 @@ import BBDD.BDManager;
 import Observer.DAOObserver;
 import Observer.Observable;
 import Producto.Categoria;
+import Producto.ControllerProducto;
 import Producto.Producto;
 
 
@@ -21,6 +22,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 	
 	public DAOProducto() {
 		lps = listProductos();
+		ControllerProducto.setDAOController(this);
 	}
 	
 	@Override
