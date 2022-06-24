@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 
 import Producto.ProductoTableModel;
 
@@ -17,7 +18,7 @@ public class ProductoWindow extends JFrame{
 	
 	ProductoTableModel pdtm;
 	JButton addProducto, removeProducto, updateProducto, selecProducto,
-			selecListProducto;
+			selecListProducto, exitButton;
 	
 	public ProductoWindow( ProductoTableModel pdtm_) {
 		super("Producto");
@@ -27,13 +28,13 @@ public class ProductoWindow extends JFrame{
 	
 	private void initGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		this.setContentPane(mainPanel);
-		
+		mainPanel.setPreferredSize(new Dimension(500, 700));
 		//algo de texto si quereis.
 		
 		JPanel p = new JPanel();
 		p.add(new JScrollPane(new JTable(pdtm)));
 		p.setPreferredSize(new Dimension(500, 500));
+		p.setVisible(true);
 		mainPanel.add(p, BorderLayout.CENTER);
 		
 		addProducto = createButton("anadir");
@@ -70,6 +71,32 @@ public class ProductoWindow extends JFrame{
 				listDialog();
 			}		
 		});
+		exitButton = createButton("exit");
+		exitButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exit();
+			}
+			
+		});
+		
+		JToolBar j = new JToolBar();
+		j.add(addProducto);
+		j.add(removeProducto);
+		j.add(updateProducto);
+		j.add(selecProducto);
+		j.add(selecListProducto);
+		j.addSeparator();
+		j.add(exitButton);
+		mainPanel.add(j, BorderLayout.PAGE_START);
+		
+		mainPanel.setVisible(true);
+		
+		this.add(mainPanel);
+		this.pack();
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private JButton createButton(String text) {
@@ -96,5 +123,9 @@ public class ProductoWindow extends JFrame{
 	
 	private void listDialog() {
 		
+	}
+	
+	public boolean exit() {
+		return false;
 	}
 }

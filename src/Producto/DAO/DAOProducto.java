@@ -113,25 +113,19 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 		lps = setToArray(bdManager.executeQuery(query));	
 		return Collections.unmodifiableList(lps);
 	}
-	
+
 	private List<Producto> setToArray(ResultSet set){
 		List<Producto> lps = new ArrayList<>();
 		try {
-			set.last();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			for(int i = 1; i <= set.getRow(); i++) {
-				set.absolute(i);
+			while(set.next()) {	
 				Producto p = new Producto(set.getString("nombre"), set.getInt("id"), Categoria.valueOf(set.getString("categoria")), 
-											set.getString("sexo"), set.getInt("stock"), set.getString("color"));
+						set.getString("sexo"), set.getInt("stock"), set.getString("color"));
 				lps.add(p);
-				set.last();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return lps;
 	}
 

@@ -12,17 +12,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import Producto.ControllerProducto;
+import Producto.ProductoTableModel;
+import Producto.GUI.ProductoWindow;
+
 
 
 public class MainWindow extends JFrame {
 
 	private JButton proveedorButton, productoButton;
 	private static Border _defaultBorder = BorderFactory.createLineBorder(Color.getColor("#000000"));
-	
+	private ControllerProducto cprod;
 	
 	public MainWindow() {
 		super("Proyecto");
-		
+		cprod = new ControllerProducto();
 		initGUI();
 	}
 	
@@ -69,5 +73,13 @@ public class MainWindow extends JFrame {
 	private void initProductos() {
 		/*productosClass misprovs = new ProductosClassWindow();
 		this.setVisible(false);*/
+		ProductoTableModel pdtm = new ProductoTableModel(cprod);
+		ProductoWindow prodWind = new ProductoWindow(pdtm);
+		
+		while(!prodWind.exit()) {
+			prodWind.setVisible(true);
+			this.setVisible(false);
+		}
+		setVisible(true);
 	}
 }

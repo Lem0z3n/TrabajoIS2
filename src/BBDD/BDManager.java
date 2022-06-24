@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 
 public class BDManager {
 	private static final String CONTROLADOR = "org.postgresql.Driver";
-	private static final String URL = "jdbc:postgresql://[::1]:5740/mediotienda";
+	private static final String URL = "jdbc:postgresql://localhost:5432/mediotienda";
 	private static final String USUARIO = "postgres";
 	private static final String CLAVE = "admin";
 	Connection connection;
