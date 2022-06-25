@@ -27,8 +27,8 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 	
 	@Override
 	public boolean altaProducto(Producto p) throws SQLException {
-		String query = "INSERT INTO Productos(id, nombre, sexo, stock, categoria, color) VALUES('" + p.getNombre()	
-		+"' " + p.getSexo() + "' " + p.getCategoria() + "' " + p.getColor() +"');";
+		String query = "INSERT INTO Productos(id, nombre, sexo, stock, categoria, color) VALUES('" + p.getId() + "', '"+ p.getNombre()	
+		+"',' " + p.getSexo() + "','" +p.getStock() + "','"+ p.getCategoria() + "',' " + p.getColor() +"');";
 		try {
 			bdManager.executeUpdate(query);
 			for(DAOObserver daoo: observers) {
@@ -42,7 +42,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 
 	@Override
 	public boolean bajaProducto(int id) {
-		String query = "DROP FROM productos WHERE id = '" + "';";
+		String query = "DELETE FROM productos WHERE id = '" +  id + "';";
 		try {
 			bdManager.executeUpdate(query);
 			for(DAOObserver daoo: observers) {
@@ -74,7 +74,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 
 	@Override
 	public boolean modProducto(Producto p, String op, String dato) {
-		String query = "UPDATE producto SET " + op + " = '" + dato + "' WHERE id = '" + p.getId() + "';";
+		String query = "UPDATE productos SET " + op + " = '" + dato + "' WHERE id = '" + p.getId() + "';";
 		try {
 			bdManager.executeUpdate(query);
 			for(DAOObserver daoo: observers) {
@@ -102,14 +102,19 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 	public boolean existsProducto(int id) {
 		boolean exists = false;
 		String query = "SELECT * FROM productos WHERE id = '" + id +"';";
-		if(bdManager.executeQuery(query) != null) exists = true;
+		ResultSet set = bdManager.executeQuery(query);
+		try {
+			if(set.getRow() > 0) exists = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return exists;
 	}
 
 	@Override
 	public List<Producto> listProductos() {
 		List<Producto> lps = new ArrayList<>();
-		String query = "SELECT * FROM productos;";
+		String query = "SELECT * FROM Productos;";
 		lps = setToArray(bdManager.executeQuery(query));	
 		return Collections.unmodifiableList(lps);
 	}

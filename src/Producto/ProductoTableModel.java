@@ -12,11 +12,10 @@ public class ProductoTableModel extends AbstractTableModel implements DAOObserve
 	
 	String[] colNames_ = {"nombre", "id", "categoria", "sexo", "stock", "color"};
 	List<Producto> lps = new ArrayList<>();
+	FachadaSubsProducto subsProducto;
 	
-	
-	FachadaSubsProducto subsProducto = new FachadaSubsProducto();
-	
-	public ProductoTableModel(ControllerProducto ctrl) {
+	public ProductoTableModel(ControllerProducto ctrl, FachadaSubsProducto subsProducto_) {
+		subsProducto = subsProducto_;
 		ctrl.addObserver(this);
 	}
 

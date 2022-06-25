@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,17 +13,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 
+import Producto.ControllerProducto;
+import Producto.Producto;
 import Producto.ProductoTableModel;
+import Producto.SA.FachadaSubsProducto;
 
 public class ProductoWindow extends JFrame{
 	
-	ProductoTableModel pdtm;
-	JButton addProducto, removeProducto, updateProducto, selecProducto,
+	private ProductoTableModel pdtm;
+	private JButton addProducto, removeProducto, updateProducto, selecProducto,
 			selecListProducto, exitButton;
+	private FachadaSubsProducto subsProducto;
+	private ControllerProducto ctrl;
 	
-	public ProductoWindow( ProductoTableModel pdtm_) {
+	public ProductoWindow( ControllerProducto ctrl_, FachadaSubsProducto subsProducto_) {
 		super("Producto");
-		pdtm = pdtm_;
+		ctrl = ctrl_;
+		subsProducto = subsProducto_;
+		pdtm = new ProductoTableModel(ctrl, subsProducto);
 		initGUI();
 	}
 	
@@ -106,11 +114,25 @@ public class ProductoWindow extends JFrame{
 	}
 	
 	private void addDialog() {
-		
+		AddDialog addDig = new AddDialog(ctrl);
+		int res = addDig.showConfirmDialog("Anadir Producto");
+		if(res == 0) {
+			Producto p = new Producto(addDig.getNombre(), pdtm.getRowCount()+1,addDig.getCategoria(), addDig.getGender(), 
+							addDig.getStock(), addDig.getColor());
+			try {
+				subsProducto.altaProducto(p);
+			} catch (SQLException e) {
+				System.out.println("Error añadiendo producto");
+			}
+		}
 	}
 	
 	private void removeDialog() {
-		
+		RemoveDialogClass remDig = new RemoveDialogClass(pdtm.getRowCount());
+		int res = remDig.showConfirmDialog("Eliminar Producto");
+		if(res == 0) {
+			subsProducto.bajaProducto(remDig.getIdRem());
+		}
 	}
 	
 	private void updateDialog() {

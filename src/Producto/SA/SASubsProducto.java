@@ -19,7 +19,7 @@ public class SASubsProducto implements ISASubsProducto{
 	@Override
 	public boolean altaProducto(Producto p) throws SQLException {
 		exito = fachadaDAO.existsProducto(p.getId());
-		if(exito) {
+		if(!exito) {
 			exito = fachadaDAO.altaProducto(p);
 		}
 		return exito;
