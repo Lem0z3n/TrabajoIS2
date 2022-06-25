@@ -101,12 +101,11 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 	@Override
 	public boolean existsProducto(int id) {
 		boolean exists = false;
-		String query = "SELECT * FROM productos WHERE id = '" + id +"';";
-		ResultSet set = bdManager.executeQuery(query);
-		try {
-			if(set.getRow() > 0) exists = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
+		lps = listProductos();
+		int i = 0;
+		while(!exists && i < lps.size()) {
+			if(id == lps.get(i).getId()) exists = true;
+			i++;
 		}
 		return exists;
 	}
