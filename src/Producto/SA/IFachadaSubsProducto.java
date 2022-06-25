@@ -11,7 +11,7 @@ public interface IFachadaSubsProducto {
 	public boolean altaProducto(Producto p) throws SQLException;
 	public boolean bajaProducto(int id);
 	public Producto getProducto(int id);
-	public boolean modProducto(Producto p, String op, String dato);
+	public boolean modProducto(int i, String op, String dato);
 	public List<Producto> buscProducto(String dato, String op);
 	
 	public List<Producto> listProductos();

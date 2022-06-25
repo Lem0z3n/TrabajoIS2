@@ -7,12 +7,16 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
 
+import Producto.Categoria;
 import Producto.ControllerProducto;
 import Producto.Producto;
 import Producto.ProductoTableModel;
@@ -136,7 +140,40 @@ public class ProductoWindow extends JFrame{
 	}
 	
 	private void updateDialog() {
-		
+		ModDialogClass remDig = new ModDialogClass(pdtm.getRowCount());
+		int res = remDig.showConfirmDialog("Actualizar Producto");
+		if(res == 0) {
+			String op = remDig.getOp();
+			String dato = remDig.getText();
+			boolean posible = true;
+				switch(op) {
+				
+				case "id":
+					try {
+					int i = Integer.parseInt(dato);
+					}catch(Exception e){
+						posible = false;
+					}
+					break;
+				case "categoria":
+					try {
+						Categoria.valueOf(dato);
+					}catch (Exception e) {
+						posible = false;
+					}
+					break;
+					
+				case  "stock":
+					try {
+						int i = Integer.parseInt(dato);
+						}catch(Exception e){
+							posible = false;
+						}
+					break;
+
+			}
+				if(posible)subsProducto.modProducto(remDig.getIdRem(), op, dato);
+		}
 	}
 	
 	private void selecDialog() {

@@ -45,10 +45,10 @@ public class SASubsProducto implements ISASubsProducto{
 	}
 
 	@Override
-	public boolean modProducto(Producto p, String op, String dato) {
-		exito = fachadaDAO.existsProducto(p.getId());
+	public boolean modProducto(int i, String op, String dato) {
+		exito = fachadaDAO.existsProducto(i);
 		if(exito) {
-			exito = fachadaDAO.modProducto(p, op, dato);
+			exito = fachadaDAO.modProducto(i, op, dato);
 		}
 		return exito;
 	}

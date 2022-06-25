@@ -73,8 +73,8 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 	}
 
 	@Override
-	public boolean modProducto(Producto p, String op, String dato) {
-		String query = "UPDATE productos SET " + op + " = '" + dato + "' WHERE id = '" + p.getId() + "';";
+	public boolean modProducto(int i, String op, String dato) {
+		String query = "UPDATE productos SET " + op + " = '" + dato + "' WHERE id = '" + i + "';";
 		try {
 			bdManager.executeUpdate(query);
 			for(DAOObserver daoo: observers) {
@@ -146,5 +146,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

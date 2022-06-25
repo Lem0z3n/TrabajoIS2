@@ -26,8 +26,8 @@ public class FachadaDAOProducto implements IFachadaDAOProducto{
 	}
 
 	@Override
-	public boolean modProducto(Producto p, String op, String dato) {		
-		return dao.modProducto(p, op, dato);
+	public boolean modProducto(int i, String op, String dato) {		
+		return dao.modProducto(i, op, dato);
 	}
 
 	@Override
