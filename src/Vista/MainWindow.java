@@ -76,10 +76,8 @@ public class MainWindow extends JFrame {
 		ProductoTableModel pdtm = new ProductoTableModel(cprod);
 		ProductoWindow prodWind = new ProductoWindow(pdtm);
 		
-		while(!prodWind.exit()) {
-			prodWind.setVisible(true);
-			this.setVisible(false);
-		}
-		setVisible(true);
+		prodWind.setVisible(true);
+		this.setVisible(false);
+		//setVisible(true);
 	}
 }

@@ -24,6 +24,10 @@ public class ProductoTableModel extends AbstractTableModel implements DAOObserve
 	public int getColumnCount() {
 		return colNames_.length;
 	}
+	
+	public String getColumnName(int col) {
+		return colNames_[col];
+	}
 
 	@Override
 	public int getRowCount() {
@@ -35,17 +39,23 @@ public class ProductoTableModel extends AbstractTableModel implements DAOObserve
 		String s= "";
 		switch (columnIndex) {
 		case 0:
-			s = s + lps.get(rowIndex).getNombre();
+			s =  lps.get(rowIndex).getNombre();
+			break;
 		case 1:
-			s= s + lps.get(rowIndex).getId();
+			s= String.valueOf(lps.get(rowIndex).getId());
+			break;
 		case 2:
-			s = s + lps.get(rowIndex).getCategoria();
+			s = lps.get(rowIndex).getCategoria().toString();
+			break;
 		case 3:
-			s = s + lps.get(rowIndex).getSexo();
+			s = lps.get(rowIndex).getSexo();
+			break;
 		case 4:
-			s = s + lps.get(rowIndex).getStock();
+			s = String.valueOf(lps.get(rowIndex).getStock());
+			break;
 		case 5:
-			s = s + lps.get(rowIndex).getColor();
+			s = lps.get(rowIndex).getColor();
+			break;
 		}
 		return s;
 	}
