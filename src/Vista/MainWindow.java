@@ -16,6 +16,9 @@ import Producto.ControllerProducto;
 import Producto.ProductoTableModel;
 import Producto.GUI.ProductoWindow;
 import Producto.SA.FachadaSubsProducto;
+import Proveedor.ControllerProveedor;
+import Proveedor.GUI.ProveedorWindow;
+import Proveedor.SA.FachadaSubsProveedor;
 
 
 
@@ -24,12 +27,16 @@ public class MainWindow extends JFrame {
 	private JButton proveedorButton, productoButton;
 	private static Border _defaultBorder = BorderFactory.createLineBorder(Color.getColor("#000000"));
 	private ControllerProducto cprod;
+	private ControllerProveedor cprov;
+	private FachadaSubsProveedor subsProv;
 	private FachadaSubsProducto subsProducto;
 	
 	public MainWindow() {
 		super("Proyecto");
 		cprod = new ControllerProducto();
 		subsProducto = new FachadaSubsProducto();
+		cprov = new ControllerProveedor();
+		subsProv = new FachadaSubsProveedor();
 		initGUI();
 	}
 	
@@ -71,6 +78,10 @@ public class MainWindow extends JFrame {
 	private void initProveedores() {
 		/*proveedoresClass misprovs = new ProveedoresClassWindow();
 		this.setVisible(false); habra que hacer algo asi pero con un cuando volver setVisible true*/
+		ProveedorWindow provWind = new ProveedorWindow(cprov, subsProv);
+		
+		provWind.setVisible(true);
+		this.setVisible(false);
 	}
 	
 	private void initProductos() {

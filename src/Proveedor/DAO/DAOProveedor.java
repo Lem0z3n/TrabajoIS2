@@ -11,6 +11,7 @@ import Observer.DAOObserver;
 import Observer.Observable;
 import Producto.Categoria;
 import Producto.Producto;
+import Producto.DAO.DAOProducto;
 import Proveedor.ControllerProveedor;
 import Proveedor.Pedido;
 import Proveedor.Proveedor;
@@ -20,6 +21,7 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 	private BDManager bdManager = new BDManager();
 	private List<DAOObserver> observers = new ArrayList<>();
 	private List<Pedido> lps = new ArrayList<>();
+	private DAOProducto daop = new DAOProducto();
 	
 	public DAOProveedor() {
 		lps = listPedidos();
@@ -34,6 +36,12 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 			bdManager.executeUpdate(query);
 			for(DAOObserver daoo: observers) {
 				daoo.onDDL();
+			}
+			if(daop.existsProducto(p.getIDProducto())) {
+				daop.modProducto(p.getIDProducto(), "Stock", String.valueOf(p.getStockExtra()));
+			}else {
+				Producto prod = new Producto(null,p.getIDProducto(),null,null,p.getStockExtra(), null);
+				daop.altaProducto(prod);
 			}
 			return true;
 		} catch (SQLException e) {
@@ -57,7 +65,7 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 
 	@Override
 	public boolean consultarPedido(int idProducto) { //esto se llama idproducto pero es idpedido
-		String query = "SELECT * from productos WHERE id = '"  + idProducto + "';";
+		String query = "SELECT * from pedidos WHERE id = '"  + idProducto + "';";
 		Pedido p =  null;
 		ResultSet set = bdManager.executeQuery(query);
 		try {
@@ -80,7 +88,7 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 
 	@Override
 	public List<Pedido> buscarlistaPedidos(String dato, String op) {
-		String query = "SELECT * FROM productos WHERE " + op + " = '" + dato + "';";
+		String query = "SELECT * FROM pedidos WHERE " + op + " = '" + dato + "';";
 		List<Pedido> lps = new ArrayList<>();
 		lps = setToArray(bdManager.executeQuery(query));
 		for(DAOObserver daoo: observers) {
@@ -91,6 +99,7 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 
 	@Override
 	public boolean existeProveedor(int idProveedor) {
+		//es existe pedido.
 		boolean exists = false;
 		lps = listPedidos();
 		int i = 0;
@@ -104,7 +113,7 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 	@Override
 	public List<Pedido> listPedidos() {
 		List<Pedido> lps = new ArrayList<>();
-		String query = "SELECT * FROM Productos;";
+		String query = "SELECT * FROM pedidos;";
 		lps = setToArray(bdManager.executeQuery(query));	
 		return Collections.unmodifiableList(lps);
 	}
@@ -127,8 +136,8 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 		List<Pedido> lps = new ArrayList<>();
 		try {
 			while(set.next()) {	
-				Pedido p = new Pedido( set.getString("nombreprov"), set.getInt("idprov"), set.getInt("stockExtra"), 
-						set.getInt("idproducto"), set.getInt("idpedido"));
+				Pedido p = new Pedido( set.getString("nombreprov"), set.getInt("idproducto"), set.getInt("idProv"), 
+						set.getInt("idPedido"), set.getInt("stockExtra"));
 				lps.add(p);
 			}
 		} catch (SQLException e) {

@@ -93,7 +93,7 @@ public class SelectProdListDialogClass extends JDialog{
 		
 		accCancPanel.add(accept);
 		
-		JButton cancel = new JButton("Cancel");
+		JButton cancel = new JButton("Close");
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

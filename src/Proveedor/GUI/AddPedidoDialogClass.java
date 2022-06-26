@@ -1,69 +1,64 @@
-package Producto.GUI;
+package Proveedor.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import Observer.DAOObserver;
 import Producto.ControllerProducto;
-import Producto.ProductQueryTableModel;
-import Producto.Producto;
-import Producto.SA.FachadaSubsProducto;
 
-public class SelecProdDialogClass extends JDialog{
+public class AddPedidoDialogClass extends JDialog{
 
-	private ProductQueryTableModel pqtm;
-	private JSpinner stockSpinner;
-	private int idMax, result;
-	private FachadaSubsProducto subsProducto;
 	
-	public SelecProdDialogClass(ProductQueryTableModel pqtm_,int idMax_, FachadaSubsProducto subsProducto_) {
-		super(new JFrame(), "Selecionar", true);
-		subsProducto = subsProducto_;
-		pqtm = pqtm_;
-		idMax = idMax_;
+	private JTextField nombre;
+	private JSpinner idProdSpinner, stockSpinner, idProvSpinner;
+	
+	private int result;
+	
+	public AddPedidoDialogClass() {
+		super(new JFrame(), "Anadir", true);
 		initGui();
 	}
 
 	private void initGui() {
-		// TODO Auto-generated method stub
 		JPanel anadirPanel = new JPanel();
 		anadirPanel.setLayout(new BorderLayout());
-		anadirPanel.setPreferredSize(new Dimension(600, 250));
-		JLabel infoText = new JLabel("Seleccionar un producto.");
-		
+		anadirPanel.setPreferredSize(new Dimension(1200, 60));
+		JLabel infoText = new JLabel("Anadir un nuevo producto.");
+		anadirPanel.add(infoText, BorderLayout.NORTH);
 		JPanel buttonPanel = new JPanel();
-		
 		buttonPanel.setLayout(new FlowLayout());
-		buttonPanel.add(infoText);
 		
-		JLabel stockText = new JLabel("Id: ");
-		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, idMax, 1));
+		JLabel nameText = new JLabel("Nombre: ");
+		buttonPanel.add(nameText);
+		nombre = new JTextField(16);
+		buttonPanel.add(nombre);
+		JLabel idProdText = new JLabel("ID producto: ");
+		idProdSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+		idProdSpinner.setMaximumSize(new Dimension(100,100));
+		buttonPanel.add(idProdText);
+		buttonPanel.add(idProdSpinner);
+		JLabel stockText = new JLabel("Stock: ");
+		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 		stockSpinner.setMaximumSize(new Dimension(100,100));
 		buttonPanel.add(stockText);
 		buttonPanel.add(stockSpinner);
-		anadirPanel.add(buttonPanel, BorderLayout.NORTH);
-		
-		JPanel p = new JPanel();
-		p.add(new JScrollPane(new JTable(pqtm)));
-		p.setPreferredSize(new Dimension(400, 150));
-		p.setVisible(true);
-		anadirPanel.add(p, BorderLayout.CENTER);
-
+		JLabel idProvText = new JLabel("idProv: ");
+		idProvSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+		idProvSpinner.setMaximumSize(new Dimension(100,100));
+		buttonPanel.add(idProvText);
+		buttonPanel.add(idProvSpinner);
+		anadirPanel.add(buttonPanel, BorderLayout.CENTER);
 		
 		JPanel accCancPanel = new JPanel();
 		accCancPanel.setLayout(new FlowLayout());
@@ -74,13 +69,14 @@ public class SelecProdDialogClass extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				result = 0;
-				subsProducto.getProducto(getId());
+				setVisible(false);
+				dispose();
 			}
 		});
 		
 		accCancPanel.add(accept);
 		
-		JButton cancel = new JButton("Close");
+		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -101,14 +97,20 @@ public class SelecProdDialogClass extends JDialog{
 		setTitle(title);
 		setLocationRelativeTo(getParent());
 		pack();
-		setSize(700, 250);
+		setSize(700, 120);
 		setVisible(true);
 		return result;
 	}
-	
-	public int getId() {
-		return  (int) stockSpinner.getValue();
+	public String getNombre() {
+		return nombre.getText();
 	}
-	
-
+	public int getStock() {
+		return (int) stockSpinner.getValue();
+	}
+	public int getIDProd() {
+		return (int) idProdSpinner.getValue();
+	}
+	public int getIDProv() {
+		return (int) idProvSpinner.getValue();
+	}
 }
