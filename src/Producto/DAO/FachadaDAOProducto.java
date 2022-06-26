@@ -21,8 +21,13 @@ public class FachadaDAOProducto implements IFachadaDAOProducto{
 
 	@Override
 	public Producto getProducto(int id) {
-		Producto p = dao.getProducto(id);
-		return p;
+		if(dao.existsProducto(id)) {
+			Producto p = dao.getProducto(id);
+			return p;
+		}else {
+			System.out.println("No se encontro id en BD");
+			return null;
+		}
 	}
 
 	@Override

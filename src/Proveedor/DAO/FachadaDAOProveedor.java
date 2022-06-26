@@ -19,13 +19,16 @@ public class FachadaDAOProveedor implements IFachadaDAOProveedor{
 	@Override
 	public boolean cancelarPedido(int idPedido) {
 		// TODO Auto-generated method stub
-		return dao.cancelarPedido(idPedido);
+		if(dao.existeProveedor(idPedido))return dao.cancelarPedido(idPedido);
+		else return false;
+
 	}
 
 	@Override
 	public boolean consultarPedido(int idProducto) {
 		// TODO Auto-generated method stub
-		return dao.consultarPedido(idProducto);
+		if(dao.existeProveedor(idProducto))return dao.consultarPedido(idProducto);
+		else return false;
 	}
 
 	@Override
@@ -49,7 +52,8 @@ public class FachadaDAOProveedor implements IFachadaDAOProveedor{
 	@Override
 	public boolean recibirPedido(int idPedido) {
 		// TODO Auto-generated method stub
-		return dao.recibirPedido(idPedido);
+		if(dao.existeProveedor(idPedido))return dao.recibirPedido(idPedido);
+		else return false;
 	}
 
 	

@@ -22,9 +22,9 @@ public class RemoveDialogClass extends JDialog{
 	private JSpinner stockSpinner;
 	
 	
-	public RemoveDialogClass(int idMax_) {
+	public RemoveDialogClass() {
 		super(new JFrame(), "Anadir", true);
-		idMax = idMax_;
+		
 		initGui();
 	}
 
@@ -38,7 +38,7 @@ public class RemoveDialogClass extends JDialog{
 		buttonPanel.setLayout(new FlowLayout());
 		
 		JLabel stockText = new JLabel("Id: ");
-		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, idMax, 1));
+		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 250, 1));
 		stockSpinner.setMaximumSize(new Dimension(100,100));
 		buttonPanel.add(stockText);
 		buttonPanel.add(stockSpinner);

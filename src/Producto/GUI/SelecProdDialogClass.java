@@ -52,7 +52,7 @@ public class SelecProdDialogClass extends JDialog{
 		buttonPanel.add(infoText);
 		
 		JLabel stockText = new JLabel("Id: ");
-		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, idMax, 1));
+		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 250, 1));
 		stockSpinner.setMaximumSize(new Dimension(100,100));
 		buttonPanel.add(stockText);
 		buttonPanel.add(stockSpinner);

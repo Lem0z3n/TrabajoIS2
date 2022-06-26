@@ -31,6 +31,7 @@ public class ProductoWindow extends JFrame{
 	private FachadaSubsProducto subsProducto;
 	private ControllerProducto ctrl;
 	private ProductQueryTableModel pqtm;
+	private int prodID = 100;
 	
 	public ProductoWindow( ControllerProducto ctrl_, FachadaSubsProducto subsProducto_) {
 		super("Producto");
@@ -124,10 +125,11 @@ public class ProductoWindow extends JFrame{
 		AddDialog addDig = new AddDialog(ctrl);
 		int res = addDig.showConfirmDialog("Anadir Producto");
 		if(res == 0) {
-			Producto p = new Producto(addDig.getNombre(), pdtm.getRowCount()+1,addDig.getCategoria(), addDig.getGender(), 
+			Producto p = new Producto(addDig.getNombre(), prodID+1,addDig.getCategoria(), addDig.getGender(), 
 							addDig.getStock(), addDig.getColor());
 			try {
 				subsProducto.altaProducto(p);
+				prodID++;
 			} catch (SQLException e) {
 				System.out.println("Error añadiendo producto");
 			}
@@ -135,7 +137,7 @@ public class ProductoWindow extends JFrame{
 	}
 	
 	private void removeDialog() {
-		RemoveDialogClass remDig = new RemoveDialogClass(pdtm.getRowCount());
+		RemoveDialogClass remDig = new RemoveDialogClass();
 		int res = remDig.showConfirmDialog("Eliminar Producto");
 		if(res == 0) {
 			subsProducto.bajaProducto(remDig.getIdRem());
