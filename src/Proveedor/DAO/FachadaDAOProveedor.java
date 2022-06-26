@@ -46,5 +46,11 @@ public class FachadaDAOProveedor implements IFachadaDAOProveedor{
 		return dao.listPedidos();
 	}
 
+	@Override
+	public boolean recibirPedido(int idPedido) {
+		// TODO Auto-generated method stub
+		return dao.recibirPedido(idPedido);
+	}
+
 	
 }

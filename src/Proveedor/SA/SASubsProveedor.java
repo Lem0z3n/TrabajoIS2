@@ -46,5 +46,11 @@ public class SASubsProveedor implements ISASubsProveedor{
 		return fachadaDAO.listPedidos();
 	}
 
+	@Override
+	public boolean recibirPedido(int idPedido) {
+		// TODO Auto-generated method stub
+		return fachadaDAO.recibirPedido(idPedido);
+	}
+
 	
 }

@@ -27,7 +27,7 @@ public class FachadaSubsProveedor implements IFachadaSubsProveedor{
 	@Override
 	public boolean consultarPedido(int idPedido) {
 		// TODO Auto-generated method stub
-		return SAProveedor.cancelarPedido(idPedido);
+		return SAProveedor.consultarPedido(idPedido);
 	}
 
 	@Override
@@ -39,7 +39,11 @@ public class FachadaSubsProveedor implements IFachadaSubsProveedor{
 		// TODO Auto-generated method stub
 		return SAProveedor.listPedidos();
 	}
-
+	@Override
+	public boolean recibirPedido(int idPedido) {
+		// TODO Auto-generated method stub
+		return SAProveedor.recibirPedido(idPedido);
+	}
 	
 
 }

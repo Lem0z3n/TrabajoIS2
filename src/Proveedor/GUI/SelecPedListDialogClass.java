@@ -1,4 +1,4 @@
-package Producto.GUI;
+package Proveedor.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,22 +16,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 
-import Producto.Categoria;
 import Producto.ProductQueryTableModel;
 import Producto.SA.FachadaSubsProducto;
+import Proveedor.PedidoQueryTableModel;
+import Proveedor.SA.FachadaSubsProveedor;
 
-public class SelectProdListDialogClass extends JDialog{
+public class SelecPedListDialogClass extends JDialog{
 
-	private ProductQueryTableModel pqtm;
+	private PedidoQueryTableModel pqtm;
 	private int result;
 	private JTextField c;
-	private FachadaSubsProducto subsProducto;
-	private String[] opNames_ = {"nombre", "id", "categoria", "sexo", "stock", "color"};
+	private FachadaSubsProveedor subsProducto;
+	private String[] opNames_ = {"nombreprov", "idProv", "stockextra", "idProducto", "idPedido"};
 	private JComboBox<Object> opSwitch;
 	
-	public SelectProdListDialogClass(ProductQueryTableModel pqtm_,int idMax_, FachadaSubsProducto subsProducto_) {
+	public SelecPedListDialogClass(PedidoQueryTableModel pqtm_,int idMax_, FachadaSubsProveedor subsProducto_) {
 		super(new JFrame(), "Selecionar", true);
 		subsProducto = subsProducto_;
 		pqtm = pqtm_;
@@ -84,7 +84,7 @@ public class SelectProdListDialogClass extends JDialog{
 				// TODO Auto-generated method stub
 				result = 0;
 				if(checkInfo(getText(),getOp())) {
-					subsProducto.buscProducto(getText(),getOp());
+					subsProducto.buscarlistaPedidos(getText(),getOp());
 				}
 			}
 		});
@@ -107,22 +107,38 @@ public class SelectProdListDialogClass extends JDialog{
 		anadirPanel.setVisible(true);
 		this.add(anadirPanel);
 	}
+
+	public int showConfirmDialog(String title) {
+		setTitle(title);
+		setLocationRelativeTo(getParent());
+		pack();
+		setSize(700, 120);
+		setVisible(true);
+		return result;
+	}
+	
+	public String getOp() {
+		return (String) opSwitch.getSelectedItem();
+	}
+	public String getText() {
+		return c.getText();
+		}
 	
 	
 	private boolean checkInfo(String dato, String op) {
 		boolean posible = true;
 		switch(op) {
 
-		case "id":
+		case "idProd":
 			try {
 				int i = Integer.parseInt(dato);
 			}catch(Exception e){
 				posible = false;
 			}
 			break;
-		case "categoria":
+		case "idProv":
 			try {
-				Categoria.valueOf(dato);
+				int i = Integer.parseInt(dato);
 			}catch (Exception e) {
 				posible = false;
 			}
@@ -140,19 +156,4 @@ public class SelectProdListDialogClass extends JDialog{
 		return posible;
 	}
 	
-	public int showConfirmDialog(String title) {
-		setTitle(title);
-		setLocationRelativeTo(getParent());
-		pack();
-		setSize(700, 120);
-		setVisible(true);
-		return result;
-	}
-	
-	public String getOp() {
-		return (String) opSwitch.getSelectedItem();
-	}
-	public String getText() {
-		return c.getText();
-		}
 }

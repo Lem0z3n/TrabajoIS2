@@ -11,5 +11,5 @@ public interface IFachadaSubsProveedor {
 	public boolean cancelarPedido(int idPedido);
 	public boolean consultarPedido(int idProducto);
 	public List<Pedido> buscarlistaPedidos(String dato, String op);
-	
+	public boolean recibirPedido(int idPedido);
 }

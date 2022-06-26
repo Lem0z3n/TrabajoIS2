@@ -1,12 +1,14 @@
 package Proveedor.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,49 +17,51 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import Producto.Categoria;
 import Producto.ControllerProducto;
 
-public class AddPedidoDialogClass extends JDialog{
+public class ModPedidoDialogClass extends JDialog{
 
 	
-	private JTextField nombre;
-	private JSpinner idProdSpinner, stockSpinner, idProvSpinner;
-	
-	private int result;
-	
-	public AddPedidoDialogClass() {
-		super(new JFrame(), "Anadir", true);
+	private int result, idMax;
+	private JSpinner stockSpinner;
+	private JTextField c;
+	private String[] opNames_ = {"nombre", "idProd", "idProv", "stock"};
+	private JComboBox<Object> opSwitch;
+	private String res;
+
+	public ModPedidoDialogClass(int idMax_) {
+		super(new JFrame(), "Modificar", true);
+		idMax = idMax_;
 		initGui();
 	}
 
 	private void initGui() {
 		JPanel anadirPanel = new JPanel();
 		anadirPanel.setLayout(new BorderLayout());
-		anadirPanel.setPreferredSize(new Dimension(1200, 60));
-		JLabel infoText = new JLabel("Hacer pedido.");
+		anadirPanel.setPreferredSize(new Dimension(600, 60));
+		JLabel infoText = new JLabel("Modificar un producto.");
 		anadirPanel.add(infoText, BorderLayout.NORTH);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		
-		JLabel nameText = new JLabel("Nombre: ");
-		buttonPanel.add(nameText);
-		nombre = new JTextField(16);
-		buttonPanel.add(nombre);
-		JLabel idProdText = new JLabel("ID producto: ");
-		idProdSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
-		idProdSpinner.setMaximumSize(new Dimension(100,100));
-		buttonPanel.add(idProdText);
-		buttonPanel.add(idProdSpinner);
-		JLabel stockText = new JLabel("Stock: ");
-		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+		JLabel stockText = new JLabel("Id: ");
+		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, idMax, 1));
 		stockSpinner.setMaximumSize(new Dimension(100,100));
 		buttonPanel.add(stockText);
 		buttonPanel.add(stockSpinner);
-		JLabel idProvText = new JLabel("idProv: ");
-		idProvSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
-		idProvSpinner.setMaximumSize(new Dimension(100,100));
-		buttonPanel.add(idProvText);
-		buttonPanel.add(idProvSpinner);
+		
+		JLabel catText = new JLabel("operaciones: ");
+		opSwitch = new JComboBox<>();
+		for(String op: opNames_) {
+			opSwitch.addItem(op);
+		}
+		buttonPanel.add(catText);
+		buttonPanel.add(opSwitch);
+		JLabel generoText = new JLabel("Dato: ");
+		buttonPanel.add(generoText);
+		c = new JTextField(16);
+		buttonPanel.add(c);
 		anadirPanel.add(buttonPanel, BorderLayout.CENTER);
 		
 		JPanel accCancPanel = new JPanel();
@@ -101,16 +105,14 @@ public class AddPedidoDialogClass extends JDialog{
 		setVisible(true);
 		return result;
 	}
-	public String getNombre() {
-		return nombre.getText();
+	
+	public String getOp() {
+		return (String) opSwitch.getSelectedItem();
 	}
-	public int getStock() {
+	public String getText() {
+		return c.getText();
+		}
+	public int getIdRem() {
 		return (int) stockSpinner.getValue();
-	}
-	public int getIDProd() {
-		return (int) idProdSpinner.getValue();
-	}
-	public int getIDProv() {
-		return (int) idProvSpinner.getValue();
 	}
 }

@@ -17,7 +17,7 @@ import Producto.Producto;
 public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>{
 	
 	private BDManager bdManager = new BDManager();
-	private List<DAOObserver> observers = new ArrayList<>();
+	private static List<DAOObserver> observers = new ArrayList<>();
 	private List<Producto> lps = new ArrayList<>();
 	
 	public DAOProducto() {
@@ -34,6 +34,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 			for(DAOObserver daoo: observers) {
 				daoo.onDDL();
 			}
+			System.out.println("insertado satisfactoriamente");
 			return true;
 		} catch (SQLException e) {
 			return false;
@@ -48,6 +49,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 			for(DAOObserver daoo: observers) {
 				daoo.onDDL();
 			}
+			System.out.println("borrado satisfactoriamente");
 			return true;
 		} catch (SQLException e) {
 			return false;
@@ -86,6 +88,7 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 			for(DAOObserver daoo: observers) {
 				daoo.onUpdate();
 			}
+			System.out.println("modificado satisfactoriamente");
 			return true;
 		} catch (SQLException e) {
 			return false;

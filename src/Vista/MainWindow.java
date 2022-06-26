@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
 		JPanel buttonsPanel = new JPanel(new BorderLayout());
 		buttonsPanel.setPreferredSize(new Dimension(400,400));
 		proveedorButton = new JButton();
-		proveedorButton.setText("proveedores");
+		proveedorButton.setText(" pedidos a proveedores");
 		proveedorButton.setPreferredSize(new Dimension(200,200));
 		proveedorButton.addActionListener(new ActionListener() {
 
@@ -80,8 +80,12 @@ public class MainWindow extends JFrame {
 		this.setVisible(false); habra que hacer algo asi pero con un cuando volver setVisible true*/
 		ProveedorWindow provWind = new ProveedorWindow(cprov, subsProv);
 		
-		provWind.setVisible(true);
 		this.setVisible(false);
+		provWind.setVisible(true);
+		if(provWind.exit()) {
+			this.setVisible(true);
+		}
+		
 	}
 	
 	private void initProductos() {
@@ -89,8 +93,9 @@ public class MainWindow extends JFrame {
 		this.setVisible(false);*/
 		ProductoWindow prodWind = new ProductoWindow(cprod, subsProducto);
 		
-		prodWind.setVisible(true);
 		this.setVisible(false);
+		prodWind.setVisible(true);
+		
 		//setVisible(true);
 	}
 }

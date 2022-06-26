@@ -12,5 +12,5 @@ public interface ISASubsProveedor {
 	public boolean consultarPedido(int idProducto);
 	public List<Pedido> buscarlistaPedidos(String dato, String op);
 	public List<Pedido> listPedidos();
-	
+	public boolean recibirPedido(int idPedido);
 }

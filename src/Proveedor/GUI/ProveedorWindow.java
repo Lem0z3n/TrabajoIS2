@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 
+import Producto.Categoria;
 import Producto.ControllerProducto;
 import Producto.Producto;
 import Producto.ProductoTableModel;
@@ -24,6 +25,7 @@ import Producto.GUI.SelectProdListDialogClass;
 import Producto.SA.FachadaSubsProducto;
 import Proveedor.ControllerProveedor;
 import Proveedor.Pedido;
+import Proveedor.PedidoQueryTableModel;
 import Proveedor.PedidoTableModel;
 import Proveedor.SA.FachadaSubsProveedor;
 
@@ -34,12 +36,16 @@ public class ProveedorWindow extends JFrame{
 	private FachadaSubsProveedor subsProveedor;
 	private ControllerProveedor ctrl;
 	private PedidoTableModel pdtm;
+	private PedidoQueryTableModel pqtm;
+	private int auxPed= 100;
+	boolean exit = false;
 	
 	public ProveedorWindow(ControllerProveedor ctrl_, FachadaSubsProveedor subsProveedor_) {
-		super("Producto");
+		super("Proveedor");
 		ctrl = ctrl_;
 		subsProveedor = subsProveedor_;
 		pdtm = new PedidoTableModel(ctrl, subsProveedor);
+		pqtm = new PedidoQueryTableModel(ctrl);
 		initGui();
 	}
 
@@ -55,7 +61,7 @@ public class ProveedorWindow extends JFrame{
 		p.setVisible(true);
 		mainPanel.add(p, BorderLayout.CENTER);
 		
-		addPedido = createButton("anadir");
+		addPedido = createButton("añadir");
 		addPedido.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -68,12 +74,6 @@ public class ProveedorWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				removeDialog();
 			}		
-		});
-		updatePedido = createButton("actualizar");
-		updatePedido.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateDialog();			}
 		});
 		selecPedido = createButton("seleccionar producto");
 		selecPedido.addActionListener(new ActionListener() {
@@ -89,11 +89,19 @@ public class ProveedorWindow extends JFrame{
 				listDialog();
 			}		
 		});
+		updatePedido = createButton("Recibir");
+		updatePedido.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				recibirDialog();
+			}		
+		});
 		exitButton = createButton("exit");
 		exitButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				exit = true;
 				exit();
 			}
 			
@@ -102,9 +110,9 @@ public class ProveedorWindow extends JFrame{
 		JToolBar j = new JToolBar();
 		j.add(addPedido);
 		j.add(removePedido);
-		j.add(updatePedido);
 		j.add(selecPedido);
 		j.add(selecListPedido);
+		j.add(updatePedido);
 		j.addSeparator();
 		j.add(exitButton);
 		mainPanel.add(j, BorderLayout.PAGE_START);
@@ -127,8 +135,9 @@ public class ProveedorWindow extends JFrame{
 		AddPedidoDialogClass addDig = new AddPedidoDialogClass();
 		int res = addDig.showConfirmDialog("Hacer pedido");
 		if(res == 0) {
-			Pedido p = new Pedido(addDig.getNombre(),addDig.getIDProv(), addDig.getIDProd(), 
-							addDig.getStock(), pdtm.getRowCount()+1);
+			Pedido p = new Pedido(addDig.getNombre(),addDig.getIDProd(), addDig.getIDProv(), 
+					auxPed, addDig.getStock()); 
+			auxPed++;
 			try {
 				subsProveedor.nuevoPedido(p); 
 			} catch (SQLException e) {
@@ -138,34 +147,45 @@ public class ProveedorWindow extends JFrame{
 	}
 	
 	private void removeDialog() {
-		RemoveDialogClass remDig = new RemoveDialogClass(pdtm.getRowCount());
-		int res = remDig.showConfirmDialog("Eliminar Producto");
+		RemovePedidoDialogClass remDig = new RemovePedidoDialogClass();
+		int res = remDig.showConfirmDialog("Cancelar pedido");
 		if(res == 0) {
-			subsProducto.bajaProducto(remDig.getIdRem());
+			if(!subsProveedor.cancelarPedido(remDig.getIdRem()))
+				System.out.println("id no reconocido.");
 		}
 	}
 	
-	private void updateDialog() {
-		ModDialogClass remDig = new ModDialogClass(pdtm.getRowCount());
-		int res = remDig.showConfirmDialog("Actualizar Producto");
+	/*private void updateDialog() {
+		ModPedidoDialogClass remDig = new ModPedidoDialogClass(pdtm.getRowCount());
+		int res = remDig.showConfirmDialog("Actualizar Pedido");
 		if(res == 0) {
 			String op = remDig.getOp();
 			String dato = remDig.getText();
-			if(checkInfo(dato,op))subsProducto.modProducto(remDig.getIdRem(), op, dato);
+			if(checkInfo(dato,op))subsProveedor.modPedido(remDig.getIdRem(), op, dato);
 		}
-	}
+	}*/
 	
 	private void selecDialog() {
-		SelecProdDialogClass selecProdDig = new SelecProdDialogClass( pqtm, pdtm.getRowCount(), subsProducto);
-		selecProdDig.showConfirmDialog("Seleccionar Producto");
+		SelecPedDialogClass selecProdDig = new SelecPedDialogClass( pqtm, pdtm.getIds(), subsProveedor);
+		selecProdDig.showConfirmDialog("Seleccionar Pedido");
 	}
 	
 	private void listDialog() {
-		SelectProdListDialogClass selecProdListDig = new SelectProdListDialogClass(pqtm, pdtm.getRowCount(), subsProducto);
-		selecProdListDig.showConfirmDialog("Seleccionar Productos");
+		SelecPedListDialogClass selecProdListDig = new SelecPedListDialogClass(pqtm, pdtm.getIds(), subsProveedor);
+		selecProdListDig.showConfirmDialog("Seleccionar Lista Pedidos");
+	}
+	
+	private void recibirDialog() {
+		recibirDialogClass recDig = new recibirDialogClass(pdtm.getIds());
+		int res = recDig.showConfirmDialog("Recibir pedido");
+		if(res == 0) {
+			subsProveedor.recibirPedido(recDig.getIdRem());
+		}
 	}
 	
 	public boolean exit() {
-		return false;
+		
+		return exit;
 	}
+	
 }

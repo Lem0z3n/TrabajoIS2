@@ -6,19 +6,14 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import Observer.DAOObserver;
-import Producto.ControllerProducto;
-import Producto.SA.FachadaSubsProducto;
 import Proveedor.SA.FachadaSubsProveedor;
 
-public class PedidoTableModel extends AbstractTableModel implements DAOObserver{
-
+public class PedidoQueryTableModel extends AbstractTableModel implements DAOObserver{
+	
 	private String[] colNames_ = {"nombre Proveedor", "ID Prod.", "ID prov.", "ID pedido", "Stock Extra"};
 	private List<Pedido> lpeds = new ArrayList<>();
-	private FachadaSubsProveedor subsProveedor;
-	private static int ids;
 	
-	public PedidoTableModel(ControllerProveedor ctrl, FachadaSubsProveedor subsProveedor_) {
-		subsProveedor = subsProveedor_;
+	public PedidoQueryTableModel(ControllerProveedor ctrl) {
 		ctrl.addObserver(this);
 	}
 	
@@ -37,7 +32,7 @@ public class PedidoTableModel extends AbstractTableModel implements DAOObserver{
 	public String getColumnName(int col) {
 		return colNames_[col];
 	}
-	
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		String s= "";
@@ -60,38 +55,30 @@ public class PedidoTableModel extends AbstractTableModel implements DAOObserver{
 		}
 		return s;
 	}
-	
-	public int getIds() {
-		return ids;
-	}
 
 	@Override
 	public void onRegister() {
-		// TODO Auto-generated method stub
-		lpeds = subsProveedor.listPedidos();
-		ids = lpeds.size();
-	}
-
-	@Override
-	public void onDDL() {
-		// TODO Auto-generated method stub
-		if(lpeds.size() < subsProveedor.listPedidos().size())ids--;
-		else ids++;
-		lpeds = subsProveedor.listPedidos();
-		update();
-	}
-
-	@Override
-	public <T> void onQuery(List<T> list) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	public void onDDL() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <T> void onQuery(List<T> list) {
+		// TODO Auto-generated method stub
+		lpeds = (List<Pedido>) list;
+		update();
+	}
+
+	@Override
 	public void onUpdate() {
 		// TODO Auto-generated method stub
-		lpeds = subsProveedor.listPedidos();
-		update();
+		
 	}
 	
 	public void update() {

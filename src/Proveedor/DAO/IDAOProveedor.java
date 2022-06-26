@@ -16,4 +16,5 @@ public abstract class IDAOProveedor {
 	public abstract List<Pedido> listPedidos();
 	public abstract List<Pedido> buscarlistaPedidos(String dato, String op);
 	public abstract boolean existeProveedor(int idProveedor);
+	public abstract boolean recibirPedido(int idPedido);
 }

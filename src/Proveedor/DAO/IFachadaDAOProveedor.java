@@ -14,4 +14,5 @@ public interface IFachadaDAOProveedor {
 	public List<Pedido> buscarlistaPedidos(String dato, String op);
 	public boolean existeProveedor(int idProveedor);
 	public List<Pedido> listPedidos();
+	public boolean recibirPedido(int idPedido);
 }

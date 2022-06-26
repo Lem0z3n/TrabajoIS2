@@ -37,26 +37,45 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 			for(DAOObserver daoo: observers) {
 				daoo.onDDL();
 			}
-			if(daop.existsProducto(p.getIDProducto())) {
-				daop.modProducto(p.getIDProducto(), "Stock", String.valueOf(p.getStockExtra()));
-			}else {
-				Producto prod = new Producto(null,p.getIDProducto(),null,null,p.getStockExtra(), null);
-				daop.altaProducto(prod);
-			}
+			System.out.println("insertado satisfactoriamente");
 			return true;
+			
 		} catch (SQLException e) {
 			return false;
 		}
 	}
 
+	
+	public boolean recibirPedido(int idPedido) {
+		boolean exito = false;
+		Pedido p = null;
+		lps = listPedidos();
+		for(Pedido ped: lps) {
+			if(ped.getIDPed() == idPedido)p = ped;
+		}
+		if(cancelarPedido(p.getIDPed()))exito = true;
+		if(daop.existsProducto(p.getIDProducto())) {
+			daop.modProducto(p.getIDProducto(), "Stock", String.valueOf(p.getStockExtra()));
+		}else {
+			Producto prod = new Producto(null,p.getIDProducto(),null,null,p.getStockExtra(), null);
+			try {
+				daop.altaProducto(prod);
+			} catch (SQLException e) {
+				exito = false;
+				return exito;
+			}
+		}
+		return exito;
+	}
 	@Override
 	public boolean cancelarPedido(int idPedido) {
-		String query = "DELETE FROM pedidos WHERE id = '" +  idPedido + "';";
+		String query = "DELETE FROM pedidos WHERE idpedido = '" +  idPedido + "';";
 		try {
 			bdManager.executeUpdate(query);
 			for(DAOObserver daoo: observers) {
 				daoo.onDDL();
 			}
+			System.out.println("borrado satisfactoriamente");
 			return true;
 		} catch (SQLException e) {
 			return false;
@@ -65,13 +84,13 @@ public class DAOProveedor extends IDAOProveedor implements Observable<DAOObserve
 
 	@Override
 	public boolean consultarPedido(int idProducto) { //esto se llama idproducto pero es idpedido
-		String query = "SELECT * from pedidos WHERE id = '"  + idProducto + "';";
+		String query = "SELECT * from pedidos WHERE idpedido = '"  + idProducto + "';";
 		Pedido p =  null;
 		ResultSet set = bdManager.executeQuery(query);
 		try {
 			if(set.next()) {
-				p = new Pedido( set.getString("nombreprov"), set.getInt("idprov"), set.getInt("stockExtra"), 
-								set.getInt("idproducto"), set.getInt("idpedido"));
+				p = new Pedido( set.getString("nombreprov"), set.getInt("idproducto"), set.getInt("idprov"), 
+								set.getInt("idpedido"), set.getInt("stockExtra"));
 				lps = new ArrayList<>();
 				lps.add(p);
 
