@@ -1,68 +1,69 @@
 package Producto.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
+import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 
-import Producto.Categoria;
+import Observer.DAOObserver;
 import Producto.ControllerProducto;
+import Producto.ProductQueryTableModel;
+import Producto.Producto;
+import Producto.SA.FachadaSubsProducto;
 
-public class ModDialogClass extends JDialog{
+public class SelecProdDialogClass extends JDialog{
 
-	
-	private int result, idMax;
+	private ProductQueryTableModel pqtm;
 	private JSpinner stockSpinner;
-	private JTextField c;
-	private String[] opNames_ = {"nombre", "id", "categoria", "sexo", "stock", "color"};
-	private JComboBox<Object> opSwitch;
-	private String res;
-
-	public ModDialogClass(int idMax_) {
-		super(new JFrame(), "Modificar", true);
+	private int idMax, result;
+	private FachadaSubsProducto subsProducto;
+	
+	public SelecProdDialogClass(ProductQueryTableModel pqtm_,int idMax_, FachadaSubsProducto subsProducto_) {
+		super(new JFrame(), "Selecionar", true);
+		subsProducto = subsProducto_;
+		pqtm = pqtm_;
 		idMax = idMax_;
 		initGui();
 	}
 
 	private void initGui() {
+		// TODO Auto-generated method stub
 		JPanel anadirPanel = new JPanel();
 		anadirPanel.setLayout(new BorderLayout());
-		anadirPanel.setPreferredSize(new Dimension(600, 60));
-		JLabel infoText = new JLabel("Modificar un producto.");
-		anadirPanel.add(infoText, BorderLayout.NORTH);
+		anadirPanel.setPreferredSize(new Dimension(600, 250));
+		JLabel infoText = new JLabel("Seleccionar un producto.");
+		
 		JPanel buttonPanel = new JPanel();
+		
 		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.add(infoText);
 		
 		JLabel stockText = new JLabel("Id: ");
 		stockSpinner = new JSpinner(new SpinnerNumberModel(1, 1, idMax, 1));
 		stockSpinner.setMaximumSize(new Dimension(100,100));
 		buttonPanel.add(stockText);
 		buttonPanel.add(stockSpinner);
+		anadirPanel.add(buttonPanel, BorderLayout.NORTH);
 		
-		JLabel catText = new JLabel("operaciones: ");
-		opSwitch = new JComboBox<>();
-		for(String op: opNames_) {
-			opSwitch.addItem(op);
-		}
-		buttonPanel.add(catText);
-		buttonPanel.add(opSwitch);
-		JLabel generoText = new JLabel("Dato: ");
-		buttonPanel.add(generoText);
-		c = new JTextField(16);
-		buttonPanel.add(c);
-		anadirPanel.add(buttonPanel, BorderLayout.CENTER);
+		JPanel p = new JPanel();
+		p.add(new JScrollPane(new JTable(pqtm)));
+		p.setPreferredSize(new Dimension(400, 150));
+		p.setVisible(true);
+		anadirPanel.add(p, BorderLayout.CENTER);
+
 		
 		JPanel accCancPanel = new JPanel();
 		accCancPanel.setLayout(new FlowLayout());
@@ -73,8 +74,7 @@ public class ModDialogClass extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				result = 0;
-				setVisible(false);
-				dispose();
+				subsProducto.getProducto(getId());
 			}
 		});
 		
@@ -101,18 +101,14 @@ public class ModDialogClass extends JDialog{
 		setTitle(title);
 		setLocationRelativeTo(getParent());
 		pack();
-		setSize(700, 120);
+		setSize(700, 250);
 		setVisible(true);
 		return result;
 	}
 	
-	public String getOp() {
-		return (String) opSwitch.getSelectedItem();
+	public int getId() {
+		return  (int) stockSpinner.getValue();
 	}
-	public String getText() {
-		return c.getText();
-		}
-	public int getIdRem() {
-		return (int) stockSpinner.getValue();
-	}
+	
+
 }

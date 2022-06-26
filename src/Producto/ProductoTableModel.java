@@ -10,9 +10,9 @@ import Producto.SA.FachadaSubsProducto;
 
 public class ProductoTableModel extends AbstractTableModel implements DAOObserver {
 	
-	String[] colNames_ = {"nombre", "id", "categoria", "sexo", "stock", "color"};
-	List<Producto> lps = new ArrayList<>();
-	FachadaSubsProducto subsProducto;
+	private String[] colNames_ = {"nombre", "id", "categoria", "sexo", "stock", "color"};
+	private List<Producto> lps = new ArrayList<>();
+	private FachadaSubsProducto subsProducto;
 	
 	public ProductoTableModel(ControllerProducto ctrl, FachadaSubsProducto subsProducto_) {
 		subsProducto = subsProducto_;

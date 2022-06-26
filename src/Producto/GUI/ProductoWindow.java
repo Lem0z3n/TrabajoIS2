@@ -18,6 +18,7 @@ import javax.swing.SpinnerNumberModel;
 
 import Producto.Categoria;
 import Producto.ControllerProducto;
+import Producto.ProductQueryTableModel;
 import Producto.Producto;
 import Producto.ProductoTableModel;
 import Producto.SA.FachadaSubsProducto;
@@ -29,12 +30,14 @@ public class ProductoWindow extends JFrame{
 			selecListProducto, exitButton;
 	private FachadaSubsProducto subsProducto;
 	private ControllerProducto ctrl;
+	private ProductQueryTableModel pqtm;
 	
 	public ProductoWindow( ControllerProducto ctrl_, FachadaSubsProducto subsProducto_) {
 		super("Producto");
 		ctrl = ctrl_;
 		subsProducto = subsProducto_;
 		pdtm = new ProductoTableModel(ctrl, subsProducto);
+		pqtm = new ProductQueryTableModel(ctrl);
 		initGUI();
 	}
 	
@@ -177,7 +180,9 @@ public class ProductoWindow extends JFrame{
 	}
 	
 	private void selecDialog() {
-		
+		SelecProdDialogClass selecProdDig = new SelecProdDialogClass( pqtm, pdtm.getRowCount(), subsProducto);
+		selecProdDig.showConfirmDialog("Seleccionar Producto");
+	
 	}
 	
 	private void listDialog() {

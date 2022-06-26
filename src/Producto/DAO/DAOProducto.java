@@ -16,9 +16,9 @@ import Producto.Producto;
 
 public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>{
 	
-	BDManager bdManager = new BDManager();
-	List<DAOObserver> observers = new ArrayList<>();
-	List<Producto> lps = new ArrayList<>();
+	private BDManager bdManager = new BDManager();
+	private List<DAOObserver> observers = new ArrayList<>();
+	private List<Producto> lps = new ArrayList<>();
 	
 	public DAOProducto() {
 		lps = listProductos();
@@ -56,16 +56,22 @@ public class DAOProducto extends IDAOProducto implements Observable<DAOObserver>
 
 	@Override
 	public Producto getProducto(int id) { //esto igual es mas correcto que sea un boolean
-		String query = "SELECET * from productos WHERE id = '"  + id + "';";
+		String query = "SELECT * from productos WHERE id = '"  + id + "';";
+		Producto p =  null;
 		ResultSet set = bdManager.executeQuery(query);
 		try {
-			Producto p = new Producto(set.getString("nombre"), id, Categoria.valueOf(set.getString("categoria")),
-									  set.getString("sexo"), set.getInt("stock"), set.getString("color"));
-			lps.add(p);
-			for(DAOObserver daoo: observers) {
-				daoo.onQuery(lps);
+			if(set.next()) {
+				p = new Producto(set.getString("nombre"), id, Categoria.valueOf(set.getString("categoria")),
+						set.getString("sexo"), set.getInt("stock"), set.getString("color"));
+				lps = new ArrayList<>();
+				lps.add(p);
+
+				for(DAOObserver daoo: observers) {
+					daoo.onQuery(lps);
+				}
 			}
 			return p;
+
 		} catch (SQLException e) {
 			return null;
 		}
