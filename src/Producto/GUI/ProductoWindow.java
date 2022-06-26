@@ -148,48 +148,53 @@ public class ProductoWindow extends JFrame{
 		if(res == 0) {
 			String op = remDig.getOp();
 			String dato = remDig.getText();
-			boolean posible = true;
-				switch(op) {
-				
-				case "id":
-					try {
-					int i = Integer.parseInt(dato);
-					}catch(Exception e){
-						posible = false;
-					}
-					break;
-				case "categoria":
-					try {
-						Categoria.valueOf(dato);
-					}catch (Exception e) {
-						posible = false;
-					}
-					break;
-					
-				case  "stock":
-					try {
-						int i = Integer.parseInt(dato);
-						}catch(Exception e){
-							posible = false;
-						}
-					break;
-
-			}
-				if(posible)subsProducto.modProducto(remDig.getIdRem(), op, dato);
+			if(checkInfo(dato,op))subsProducto.modProducto(remDig.getIdRem(), op, dato);
 		}
 	}
 	
 	private void selecDialog() {
 		SelecProdDialogClass selecProdDig = new SelecProdDialogClass( pqtm, pdtm.getRowCount(), subsProducto);
 		selecProdDig.showConfirmDialog("Seleccionar Producto");
-	
 	}
 	
 	private void listDialog() {
-		
+		SelectProdListDialogClass selecProdListDig = new SelectProdListDialogClass(pqtm, pdtm.getRowCount(), subsProducto);
+		selecProdListDig.showConfirmDialog("Seleccionar Productos");
 	}
 	
 	public boolean exit() {
 		return false;
+	}
+	
+	
+	private boolean checkInfo(String dato, String op) {
+		boolean posible = true;
+		switch(op) {
+
+		case "id":
+			try {
+				int i = Integer.parseInt(dato);
+			}catch(Exception e){
+				posible = false;
+			}
+			break;
+		case "categoria":
+			try {
+				Categoria.valueOf(dato);
+			}catch (Exception e) {
+				posible = false;
+			}
+			break;
+
+		case  "stock":
+			try {
+				int i = Integer.parseInt(dato);
+			}catch(Exception e){
+				posible = false;
+			}
+			break;
+
+		}
+		return posible;
 	}
 }
