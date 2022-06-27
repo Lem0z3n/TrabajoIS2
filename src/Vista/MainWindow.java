@@ -33,7 +33,7 @@ public class MainWindow extends JFrame {
 	
 	public MainWindow() {
 		super("Proyecto");
-		cprod = new ControllerProducto();
+		cprod = new ControllerProducto(); //creamos los controladores y accedemos a los DAO para establecer el observer.
 		subsProducto = new FachadaSubsProducto();
 		cprov = new ControllerProveedor();
 		subsProv = new FachadaSubsProveedor();
@@ -79,7 +79,7 @@ public class MainWindow extends JFrame {
 		/*proveedoresClass misprovs = new ProveedoresClassWindow();
 		this.setVisible(false); habra que hacer algo asi pero con un cuando volver setVisible true*/
 		ProveedorWindow provWind = new ProveedorWindow(cprov, subsProv);
-		
+		//ventana de proveedores
 		this.setVisible(false);
 		provWind.setVisible(true);
 		if(provWind.exit()) {
@@ -92,7 +92,7 @@ public class MainWindow extends JFrame {
 		/*productosClass misprovs = new ProductosClassWindow();
 		this.setVisible(false);*/
 		ProductoWindow prodWind = new ProductoWindow(cprod, subsProducto);
-		
+		//ventana de productos.
 		this.setVisible(false);
 		prodWind.setVisible(true);
 		

@@ -37,7 +37,7 @@ public class ProductoWindow extends JFrame{
 		super("Producto");
 		ctrl = ctrl_;
 		subsProducto = subsProducto_;
-		pdtm = new ProductoTableModel(ctrl, subsProducto);
+		pdtm = new ProductoTableModel(ctrl, subsProducto); //creacion de los modelos de las tablas para esto queremos el controler y el observer.
 		pqtm = new ProductQueryTableModel(ctrl);
 		initGUI();
 	}
@@ -97,7 +97,7 @@ public class ProductoWindow extends JFrame{
 			
 		});
 		
-		JToolBar j = new JToolBar();
+		JToolBar j = new JToolBar(); //toolbar cono todos los botones para acceder a las funciones del subsistema
 		j.add(addProducto);
 		j.add(removeProducto);
 		j.add(updateProducto);
@@ -126,12 +126,12 @@ public class ProductoWindow extends JFrame{
 		int res = addDig.showConfirmDialog("Anadir Producto");
 		if(res == 0) {
 			Producto p = new Producto(addDig.getNombre(), prodID+1,addDig.getCategoria(), addDig.getGender(), 
-							addDig.getStock(), addDig.getColor());
+							addDig.getStock(), addDig.getColor()); //creamos un objeto con la info del dialog y lo añadimos a la BD el id se genera automaticamente
 			try {
 				subsProducto.altaProducto(p);
-				prodID++;
+				prodID++; //mi constante de ids aumenta si se añade el prod a la BD
 			} catch (SQLException e) {
-				System.out.println("Error aÃ±adiendo producto");
+				System.out.println("Error anadiendo producto");
 			}
 		}
 	}
@@ -140,7 +140,7 @@ public class ProductoWindow extends JFrame{
 		RemoveDialogClass remDig = new RemoveDialogClass();
 		int res = remDig.showConfirmDialog("Eliminar Producto");
 		if(res == 0) {
-			subsProducto.bajaProducto(remDig.getIdRem());
+			subsProducto.bajaProducto(remDig.getIdRem()); //elimino el producto selecionado por el dialog
 		}
 	}
 	
@@ -155,7 +155,7 @@ public class ProductoWindow extends JFrame{
 	}
 	
 	private void selecDialog() {
-		SelecProdDialogClass selecProdDig = new SelecProdDialogClass( pqtm, pdtm.getRowCount(), subsProducto);
+		SelecProdDialogClass selecProdDig = new SelecProdDialogClass( pqtm, pdtm.getRowCount(), subsProducto); //en estos dialogs de consulta necesito el subsProd dentro del dialog
 		selecProdDig.showConfirmDialog("Seleccionar Producto");
 	}
 	
@@ -170,7 +170,7 @@ public class ProductoWindow extends JFrame{
 	
 	
 	private boolean checkInfo(String dato, String op) {
-		boolean posible = true;
+		boolean posible = true;//comprobacion de los datos para actualizar los productos.
 		switch(op) {
 
 		case "id":

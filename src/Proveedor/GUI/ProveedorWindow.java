@@ -44,7 +44,7 @@ public class ProveedorWindow extends JFrame{
 		super("Proveedor");
 		ctrl = ctrl_;
 		subsProveedor = subsProveedor_;
-		pdtm = new PedidoTableModel(ctrl, subsProveedor);
+		pdtm = new PedidoTableModel(ctrl, subsProveedor); //modelos de las tablas de los dialogs de busqueda y de la tabla principal
 		pqtm = new PedidoQueryTableModel(ctrl);
 		initGui();
 	}
@@ -53,7 +53,7 @@ public class ProveedorWindow extends JFrame{
 		// TODO Auto-generated method stub
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setPreferredSize(new Dimension(500, 700));
-		//algo de texto si quereis.
+		
 		
 		JPanel p = new JPanel();
 		p.add(new JScrollPane(new JTable(pdtm)));
@@ -127,7 +127,7 @@ public class ProveedorWindow extends JFrame{
 	
 	private JButton createButton(String text) {
 		JButton button = new JButton();
-		button.setText(text);
+		button.setText(text); //subrutina de creacion de botones
 		return button;
 	}
 	
@@ -137,9 +137,9 @@ public class ProveedorWindow extends JFrame{
 		if(res == 0) {
 			Pedido p = new Pedido(addDig.getNombre(),addDig.getIDProd(), addDig.getIDProv(), 
 					auxPed, addDig.getStock()); 
-			auxPed++;
+			auxPed++; //anadimos un nuevo pedido a la BD el id del pedido se determina automaticamente.
 			try {
-				subsProveedor.nuevoPedido(p); 
+				subsProveedor.nuevoPedido(p); //aceso al subsistema
 			} catch (SQLException e) {
 				System.out.println("Error haciendo pedido");
 			}
@@ -149,21 +149,11 @@ public class ProveedorWindow extends JFrame{
 	private void removeDialog() {
 		RemovePedidoDialogClass remDig = new RemovePedidoDialogClass();
 		int res = remDig.showConfirmDialog("Cancelar pedido");
-		if(res == 0) {
+		if(res == 0) { //dialogo de cancelacion de pedido borramos el pedido de la Bd
 			if(!subsProveedor.cancelarPedido(remDig.getIdRem()))
 				System.out.println("id no reconocido.");
 		}
 	}
-	
-	/*private void updateDialog() {
-		ModPedidoDialogClass remDig = new ModPedidoDialogClass(pdtm.getRowCount());
-		int res = remDig.showConfirmDialog("Actualizar Pedido");
-		if(res == 0) {
-			String op = remDig.getOp();
-			String dato = remDig.getText();
-			if(checkInfo(dato,op))subsProveedor.modPedido(remDig.getIdRem(), op, dato);
-		}
-	}*/
 	
 	private void selecDialog() {
 		SelecPedDialogClass selecProdDig = new SelecPedDialogClass( pqtm, pdtm.getIds(), subsProveedor);
@@ -177,14 +167,14 @@ public class ProveedorWindow extends JFrame{
 	
 	private void recibirDialog() {
 		recibirDialogClass recDig = new recibirDialogClass(pdtm.getIds());
-		int res = recDig.showConfirmDialog("Recibir pedido");
+		int res = recDig.showConfirmDialog("Recibir pedido"); //dialogo de recibir producto con este dialogo procesamos el pedido recibido
 		if(res == 0) {
 			subsProveedor.recibirPedido(recDig.getIdRem());
 		}
 	}
 	
 	public boolean exit() {
-		
+		//no ha habido tiempo de implementar una manera de salir de estas ventanas de manera elegante los examenes son largos.
 		return exit;
 	}
 	
